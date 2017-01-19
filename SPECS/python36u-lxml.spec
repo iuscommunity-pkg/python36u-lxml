@@ -1,13 +1,31 @@
 %global pypi_name lxml
 
-Name:           python-%{pypi_name}
+# these correspond to the extras_require options in setup.py
+# https://github.com/lxml/lxml/blob/lxml-3.7.2/setup.py#L68-L70
+%bcond_with cssselect
+%bcond_with html5
+%bcond_with htmlsoup
+
+Name:           python36u-%{pypi_name}
 Version:        3.7.2
-Release:        1%{?dist}
+Release:        1.ius%{?dist}
 Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
 
 License:        BSD
 URL:            http://lxml.de
 Source0:        http://lxml.de/files/%{pypi_name}-%{version}.tgz
+
+# http://lxml.de/installation.html#requirements
+BuildRequires:  libxml2-devel >= 2.7.0
+BuildRequires:  libxslt-devel >= 1.1.23
+
+BuildRequires:  python36u-setuptools
+BuildRequires:  python36u-devel
+
+%{?with_cssselect:Requires: python36u-cssselect}
+%{?with_html5:Requires: python36u-html5lib}
+%{?with_htmlsoup:Requires: python36u-beautifulsoup4}
+
 
 %description
 lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It
@@ -16,68 +34,34 @@ extends the ElementTree API significantly to offer support for XPath, RelaxNG,
 XML Schema, XSLT, C14N and much more.To contact the project, go to the project
 home page < or see our bug tracker at case you want to use the current ...
 
-%package -n     python2-%{pypi_name}
-Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
-BuildRequires:  python-setuptools
-BuildRequires:  python2-devel
-BuildRequires:  libxml2-devel
-BuildRequires:  libxslt-devel
-Requires:       python-cssselect
-Requires:       python-html5lib
-Requires:       python-beautifulsoup4
-%{?python_provide:%python_provide python2-%{pypi_name}}
-
-%description -n python2-%{pypi_name}
-lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It
-provides safe and convenient access to these libraries using the ElementTree It
-extends the ElementTree API significantly to offer support for XPath, RelaxNG,
-XML Schema, XSLT, C14N and much more.To contact the project, go to the project
-home page < or see our bug tracker at case you want to use the current ...
-
-%package -n     python3-%{pypi_name}
-Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-devel
-Requires:       python3-cssselect
-Requires:       python3-html5lib
-Requires:       python3-beautifulsoup4
-%{?python_provide:%python_provide python3-%{pypi_name}}
-
-%description -n python3-%{pypi_name}
-lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It
-provides safe and convenient access to these libraries using the ElementTree It
-extends the ElementTree API significantly to offer support for XPath, RelaxNG,
-XML Schema, XSLT, C14N and much more.To contact the project, go to the project
-home page < or see our bug tracker at case you want to use the current ...
 
 %prep
 %autosetup -n %{pypi_name}-%{version}
 
+
 %build
-%py2_build
-%py3_build
+%{py36_build}
+
 
 %install
-%py2_install
-%py3_install
+%{py36_install}
+
 
 %check
-%{__python2} setup.py test
-%{__python3} setup.py test
+%{__python36} setup.py test
 
-%files -n python2-%{pypi_name}
+
+%files
 %license doc/licenses/ZopePublicLicense.txt LICENSES.txt
 %doc README.rst src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/readme.txt
-%{python2_sitearch}/%{pypi_name}
-%{python2_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python36_sitearch}/%{pypi_name}
+%{python36_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
 
-%files -n python3-%{pypi_name}
-%license doc/licenses/ZopePublicLicense.txt LICENSES.txt
-%doc README.rst src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/readme.txt
-%{python3_sitearch}/%{pypi_name}
-%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
 
 %changelog
+* Thu Jan 19 2017 Carl George <carl.george@rackspace.com> - 3.7.2-1.ius
+- Port from Fedora to IUS
+
 * Mon Jan 09 2017 Fabio Alessandro Locati <fale@fedoraproject.org> - 3.7.2-1
 - Update to 3.7.2
 

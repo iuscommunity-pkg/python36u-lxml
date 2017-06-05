@@ -1,4 +1,5 @@
 %global pypi_name lxml
+%global python python36u
 
 # these correspond to the extras_require options in setup.py
 # https://github.com/lxml/lxml/blob/lxml-3.7.2/setup.py#L68-L70
@@ -6,11 +7,10 @@
 %bcond_with html5
 %bcond_with htmlsoup
 
-Name:           python36u-%{pypi_name}
+Name:           %{python}-%{pypi_name}
 Version:        3.8.0
 Release:        1.ius%{?dist}
 Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
-
 License:        BSD
 URL:            http://lxml.de
 Source0:        http://lxml.de/files/%{pypi_name}-%{version}.tgz
@@ -18,13 +18,12 @@ Source0:        http://lxml.de/files/%{pypi_name}-%{version}.tgz
 # http://lxml.de/installation.html#requirements
 BuildRequires:  libxml2-devel >= 2.7.0
 BuildRequires:  libxslt-devel >= 1.1.23
+BuildRequires:  %{python}-devel
+BuildRequires:  %{python}-setuptools
 
-BuildRequires:  python36u-setuptools
-BuildRequires:  python36u-devel
-
-%{?with_cssselect:Requires: python36u-cssselect}
-%{?with_html5:Requires: python36u-html5lib}
-%{?with_htmlsoup:Requires: python36u-beautifulsoup4}
+%{?with_cssselect:Requires: %{python}-cssselect}
+%{?with_html5:Requires: %{python}-html5lib}
+%{?with_htmlsoup:Requires: %{python}-beautifulsoup4}
 
 
 %description

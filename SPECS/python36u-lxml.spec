@@ -7,7 +7,7 @@
 %bcond_with htmlsoup
 
 Name:           python36u-%{pypi_name}
-Version:        3.7.2
+Version:        3.8.0
 Release:        1.ius%{?dist}
 Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
 
@@ -59,6 +59,9 @@ home page < or see our bug tracker at case you want to use the current ...
 
 
 %changelog
+* Mon Jun 05 2017 Carl George <carl.george@rackspace.com> - 3.8.0-1.ius
+- Latest upstream
+
 * Thu Jan 19 2017 Carl George <carl.george@rackspace.com> - 3.7.2-1.ius
 - Port from Fedora to IUS
 

@@ -1,6 +1,14 @@
 %global pypi_name lxml
 %global python python36u
 
+# EL6 has a problematic version of libxml2
+# https://github.com/iuscommunity/wishlist/issues/59#issuecomment-210702512
+%if 0%{?rhel} && 0%{?rhel} < 7
+%bcond_with tests
+%else
+%bcond_without tests
+%endif
+
 # these correspond to the extras_require options in setup.py
 # https://github.com/lxml/lxml/blob/lxml-3.7.2/setup.py#L68-L70
 %bcond_with cssselect
@@ -46,8 +54,11 @@ home page < or see our bug tracker at case you want to use the current ...
 %{py36_install}
 
 
+%if %{with tests}
 %check
-%{__python36} setup.py test
+cp build/lib.linux-%{_arch}-%{python36_version}/lxml/*.so src/lxml/
+LC_CTYPE=en_US.UTF-8 PYTHON=%{__python36} make test
+%endif
 
 
 %files
@@ -60,6 +71,7 @@ home page < or see our bug tracker at case you want to use the current ...
 %changelog
 * Mon Jun 05 2017 Carl George <carl.george@rackspace.com> - 3.8.0-1.ius
 - Latest upstream
+- Fix test suite
 
 * Thu Jan 19 2017 Carl George <carl.george@rackspace.com> - 3.7.2-1.ius
 - Port from Fedora to IUS

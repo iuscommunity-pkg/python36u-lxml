@@ -17,7 +17,7 @@
 
 Name:           %{python}-%{pypi_name}
 Version:        4.2.0
-Release:        1.ius%{?dist}
+Release:        1%{?dist}
 Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
 License:        BSD
 URL:            http://lxml.de

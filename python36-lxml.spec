@@ -1,5 +1,5 @@
 %global pypi_name lxml
-%global python python36u
+%global python python36
 
 # EL6 has a problematic version of libxml2
 # https://github.com/iuscommunity/wishlist/issues/59#issuecomment-210702512
@@ -17,7 +17,7 @@
 
 Name:           %{python}-%{pypi_name}
 Version:        4.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
 License:        BSD
 URL:            http://lxml.de
@@ -33,6 +33,10 @@ BuildRequires:  %{python}-setuptools
 %{?with_html5:Requires: %{python}-html5lib}
 %{?with_htmlsoup:Requires: %{python}-beautifulsoup4}
 
+# Rename from python36u-lxml
+Provides:       python36u-lxml = %{version}-%{release}
+Provides:       python36u-lxml%{?_isa} = %{version}-%{release}
+Obsoletes:      python36u-lxml < 4.2.0-2
 
 %description
 lxml is a Pythonic, mature binding for the libxml2 and libxslt libraries. It
@@ -69,6 +73,9 @@ LC_CTYPE=en_US.UTF-8 PYTHON=%{__python36} make test
 
 
 %changelog
+* Sat Sep 21 2019 Carl George <carl@george.computer> - 4.2.0-2
+- Rename to python36-lxml
+
 * Wed Mar 14 2018 Ben Harper <ben.harper@rackspace.com> - 4.2.0-1.ius
 - Latest upstream
 

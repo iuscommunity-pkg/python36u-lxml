@@ -1,6 +1,10 @@
 %global pypi_name lxml
 %global python python36
 
+%if %{defined el6}
+%global __python3 /usr/bin/python3.6
+%endif
+
 # EL6 has a problematic version of libxml2
 # https://github.com/iuscommunity/wishlist/issues/59#issuecomment-210702512
 %if 0%{?rhel} && 0%{?rhel} < 7
@@ -51,30 +55,31 @@ home page < or see our bug tracker at case you want to use the current ...
 
 
 %build
-%{py36_build}
+%py3_build
 
 
 %install
-%{py36_install}
+%py3_install
 
 
 %if %{with tests}
 %check
-cp build/lib.linux-%{_arch}-%{python36_version}/lxml/*.so src/lxml/
-LC_CTYPE=en_US.UTF-8 PYTHON=%{__python36} make test
+cp build/lib.linux-%{_arch}-%{python3_version}/lxml/*.so src/lxml/
+LC_CTYPE=en_US.UTF-8 PYTHON=%{__python3} make test
 %endif
 
 
 %files
 %license doc/licenses/ZopePublicLicense.txt LICENSES.txt
 %doc README.rst src/lxml/isoschematron/resources/xsl/iso-schematron-xslt1/readme.txt
-%{python36_sitearch}/%{pypi_name}
-%{python36_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitearch}/%{pypi_name}
+%{python3_sitearch}/%{pypi_name}-%{version}-py?.?.egg-info
 
 
 %changelog
 * Sat Sep 21 2019 Carl George <carl@george.computer> - 4.2.0-2
 - Rename to python36-lxml
+- Switch to EPEL python3 macros
 
 * Wed Mar 14 2018 Ben Harper <ben.harper@rackspace.com> - 4.2.0-1.ius
 - Latest upstream

@@ -20,8 +20,8 @@
 %bcond_with htmlsoup
 
 Name:           %{python}-%{pypi_name}
-Version:        4.2.0
-Release:        2%{?dist}
+Version:        4.2.5
+Release:        4%{?dist}
 Summary:        XML processing library combining libxml2/libxslt with the ElementTree API
 License:        BSD
 URL:            http://lxml.de
@@ -77,6 +77,9 @@ LC_CTYPE=en_US.UTF-8 PYTHON=%{__python3} make test
 
 
 %changelog
+* Sat Sep 21 2019 Carl George <carl@george.computer> - 4.2.5-4
+- Update to 4.2.5 and bump release higher than EPEL
+
 * Sat Sep 21 2019 Carl George <carl@george.computer> - 4.2.0-2
 - Rename to python36-lxml
 - Switch to EPEL python3 macros
